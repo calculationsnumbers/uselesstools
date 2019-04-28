@@ -1,0 +1,140 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset0 Consolas;}
+{\colortbl;\red255\green255\blue255;\red27\green29\blue31;\red255\green255\blue255;\red36\green38\blue41;
+\red235\green236\blue237;\red104\green26\blue29;\red13\green0\blue129;\red114\green121\blue129;}
+{\*\expandedcolortbl;;\cssrgb\c14118\c15294\c16078;\cssrgb\c100000\c100000\c100000;\cssrgb\c18824\c20000\c21176;
+\cssrgb\c93725\c94118\c94510;\cssrgb\c49020\c15294\c15294;\cssrgb\c6275\c6275\c58039;\cssrgb\c52157\c54902\c57647;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\i\fs30 \cf2 \cb3 \expnd0\expndtw0\kerning0
+square
+\i0  pie chart\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs26 \cf4 \cb5 devtools::install_github(\cf6 "hrbrmstr/waffle"\cf4 )\
+library(waffle)\
+\
+mydata <- c(\cf6 `A`=20, `B`=32, `0`=32, `AB`\cf4 =\cf6 16\cf4 )\
+waffle(mydata, title = \cf6 "Yummy waffle pie!"\cf4 )\
+\
+\
+\
+SunburstR\
+\
+library(sunburstR)\
+library(dplyr)\
+library(tidyr)\
+browsers %>%\
+  unite(bv, browser, version, sep = \cf6 "-"\cf4 ) %>%\
+  select(bv, share) %>%\
+  sunburst(., count = \cf6 TRUE\cf4 )\
+\
+Treemap\
+library(treemap)\
+tm <- treemap(\
+  browsers,\
+  index=c(\cf6 "browser"\cf4 , \cf6 "version"\cf4 ),\
+  vSize=\cf6 "share"\cf4 ,\
+  vColor=\cf6 "share"\cf4 ,\
+  type=\cf6 "value"\cf4 \
+)\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 networkD3\
+\pard\pardeftab720\partightenfactor0
+\cf4 library(networkD3)\
+df <- browsers %>%\
+  mutate_each(funs(as.character), browser, version) %>%\
+  mutate(bn = group_indices_(., .dots = \cf6 "browser"\cf4 ), \
+         cn = max(bn) + row_number()) \
+\
+links <- select(df, bn, cn, share)\
+nodes <- data.frame(name = c(\cf6 ""\cf4 , sort(unique(df$browser)), df$version))\
+\
+sankeyNetwork(Links = links, Nodes = nodes, Source = \cf6 "bn"\cf4 ,\
+              Target = \cf6 "cn"\cf4 , Value = \cf6 "share"\cf4 , NodeID = \cf6 "name"\cf4 ,\
+              fontSize = \cf6 12\cf4 , nodeWidth = \cf6 30\cf4 )\
+\
+\
+Pies\
+browsers <- structure(list(browser = structure(c(\cf6 3L\cf4 , \cf6 3L\cf4 , \cf6 3L\cf4 , \cf6 3L\cf4 , \cf6 2L\cf4 , \cf6 2L\cf4 , \
+  \cf6 2L\cf4 , \cf6 1L\cf4 , \cf6 5L\cf4 , \cf6 5L\cf4 , \cf6 4L\cf4 ), .Label = c(\cf6 "Chrome"\cf4 , \cf6 "Firefox"\cf4 , \cf6 "MSIE"\cf4 , \
+  \cf6 "Opera"\cf4 , \cf6 "Safari"\cf4 ), class = \cf6 "factor"\cf4 ), version = structure(c(\cf6 5L\cf4 , \
+  \cf6 6L\cf4 , \cf6 7L\cf4 , \cf6 8L\cf4 , \cf6 2L\cf4 , \cf6 3L\cf4 , \cf6 4L\cf4 , \cf6 1L\cf4 , \cf6 10L\cf4 , \cf6 11L\cf4 , \cf6 9L\cf4 ), .Label = c(\cf6 "Chrome 10.0"\cf4 , \
+  \cf6 "Firefox 3.5"\cf4 , \cf6 "Firefox 3.6"\cf4 , \cf6 "Firefox 4.0"\cf4 , \cf6 "MSIE 6.0"\cf4 , \cf6 "MSIE 7.0"\cf4 , \
+  \cf6 "MSIE 8.0"\cf4 , \cf6 "MSIE 9.0"\cf4 , \cf6 "Opera 11.x"\cf4 , \cf6 "Safari 4.0"\cf4 , \cf6 "Safari 5.0"\cf4 ), \
+  class = \cf6 "factor"\cf4 ), share = c(\cf6 10.85\cf4 , \cf6 7.35\cf4 , \cf6 33.06\cf4 , \cf6 2.81\cf4 , \cf6 1.58\cf4 , \
+  \cf6 13.12\cf4 , \cf6 5.43\cf4 , \cf6 9.91\cf4 , \cf6 1.42\cf4 , \cf6 4.55\cf4 , \cf6 1.65\cf4 ), ymax = c(\cf6 10.85\cf4 , \cf6 18.2\cf4 , \cf6 51.26\cf4 , \
+  \cf6 54.07\cf4 , \cf6 55.65\cf4 , \cf6 68.77\cf4 , \cf6 74.2\cf4 , \cf6 84.11\cf4 , \cf6 85.53\cf4 , \cf6 90.08\cf4 , \cf6 91.73\cf4 ), ymin = c(\cf6 0\cf4 , \
+  \cf6 10.85\cf4 , \cf6 18.2\cf4 , \cf6 51.26\cf4 , \cf6 54.07\cf4 , \cf6 55.65\cf4 , \cf6 68.77\cf4 , \cf6 74.2\cf4 , \cf6 84.11\cf4 , \cf6 85.53\cf4 , \
+  \cf6 90.08\cf4 )), .Names = c(\cf6 "browser"\cf4 , \cf6 "version"\cf4 , \cf6 "share"\cf4 , \cf6 "ymax"\cf4 , \cf6 "ymin"\cf4 ),\
+  row.names = c(\cf6 NA\cf4 , \cf6 -11L\cf4 ), class = \cf6 "data.frame"\cf4 )\
+\
+browsers$total <- with(browsers, ave(share, browser, FUN = sum))\
+\
+givemedonutsorgivemedeath <- \cf7 function\cf4 (file, width = \cf6 15\cf4 , height = \cf6 11\cf4 ) \{\
+  \cf8 ## house keeping \cf4 \
+  \cf7 if\cf4  (missing(file)) file <- getwd()\
+  plot.new(); op <- par(no.readonly = \cf6 TRUE\cf4 ); on.exit(par(op))\
+\
+  pdf(file, width = width, height = height, bg = \cf6 'snow'\cf4 )\
+\
+  \cf8 ## useful values and colors to work with\cf4 \
+  \cf8 ## each group will have a specific color\cf4 \
+  \cf8 ## each subgroup will have a specific shade of that color\cf4 \
+  nr <- nrow(browsers)\
+  width <- max(sqrt(browsers$share)) / \cf6 0.8\cf4 \
+\
+  tbl <- with(browsers, table(browser)[order(unique(browser))])\
+  cols <- c(\cf6 'cyan2'\cf4 ,\cf6 'red'\cf4 ,\cf6 'orange'\cf4 ,\cf6 'green'\cf4 ,\cf6 'dodgerblue2'\cf4 )\
+  cols <- unlist(Map(rep, cols, tbl))\
+\
+  \cf8 ## loop creates pie slices\cf4 \
+  plot.new()\
+  par(omi = c(\cf6 0.5\cf4 ,\cf6 0.5\cf4 ,\cf6 0.75\cf4 ,\cf6 0.5\cf4 ), mai = c(\cf6 0.1\cf4 ,\cf6 0.1\cf4 ,\cf6 0.1\cf4 ,\cf6 0.1\cf4 ), las = \cf6 1\cf4 )\
+  \cf7 for\cf4  (i \cf7 in\cf4  \cf6 1\cf4 :nr) \{\
+    par(new = \cf6 TRUE\cf4 )\
+\
+    \cf8 ## create color/shades\cf4 \
+    rgb <- col2rgb(cols[i])\
+    f0 <- rep(\cf6 NA\cf4 , nr)\
+    f0[i] <- rgb(rgb[\cf6 1\cf4 ], rgb[\cf6 2\cf4 ], rgb[\cf6 3\cf4 ], \cf6 190\cf4  / sequence(tbl)[i], maxColorValue = \cf6 255\cf4 )\
+\
+    \cf8 ## stick labels on the outermost section\cf4 \
+    lab <- with(browsers, sprintf(\cf6 '%s: %s'\cf4 , version, share))\
+    \cf7 if\cf4  (with(browsers, share[i] == max(share))) \{\
+      lab0 <- lab\
+    \} \cf7 else\cf4  lab0 <- \cf6 NA\cf4 \
+\
+    \cf8 ## plot the outside pie and shades of subgroups\cf4 \
+    pie(browsers$share, border = \cf6 NA\cf4 , radius = \cf6 5\cf4  / width, col = f0, \
+        labels = lab0, cex = \cf6 1.8\cf4 )\
+\
+    \cf8 ## repeat above for the main groups\cf4 \
+    par(new = \cf6 TRUE\cf4 )\
+    rgb <- col2rgb(cols[i])\
+    f0[i] <- rgb(rgb[\cf6 1\cf4 ], rgb[\cf6 2\cf4 ], rgb[\cf6 3\cf4 ], maxColorValue = \cf6 255\cf4 )\
+\
+    pie(browsers$share, border = \cf6 NA\cf4 , radius = \cf6 4\cf4  / width, col = f0, labels = \cf6 NA\cf4 )\
+  \}\
+\
+  \cf8 ## extra labels on graph\cf4 \
+\
+  \cf8 ## center labels, guess and check?\cf4 \
+  text(x = c(\cf6 -.05\cf4 , \cf6 -.05\cf4 , \cf6 0.15\cf4 , \cf6 .25\cf4 , \cf6 .3\cf4 ), y = c(\cf6 .08\cf4 , \cf6 -.12\cf4 , \cf6 -.15\cf4 , \cf6 -.08\cf4 , \cf6 -.02\cf4 ), \
+       labels = unique(browsers$browser), col = \cf6 'white'\cf4 , cex = \cf6 1.2\cf4 )\
+\
+  mtext(\cf6 'Browser market'\cf4 , side = \cf6 3\cf4 , line = \cf6 -1\cf4 , adj = \cf6 0\cf4 , \
+        cex = \cf6 3.5\cf4 , outer = \cf6 TRUE\cf4 )\
+  mtext(\cf6 'stack'\cf4 , side = \cf6 3\cf4 , line = \cf6 -3.6\cf4 , adj = \cf6 0\cf4 ,\
+        cex = \cf6 1.75\cf4 , outer = \cf6 TRUE\cf4 , font = \cf6 3\cf4 )\
+  mtext(\cf6 '/'\cf4 ,\
+        side = \cf6 1\cf4 , line = \cf6 0\cf4 , adj = \cf6 1.0\cf4 , cex = \cf6 1.2\cf4 , outer = \cf6 TRUE\cf4 , font = \cf6 3\cf4 )\
+  dev.off()\
+\}\
+\
+givemedonutsorgivemedeath(\cf6 '~/desktop/donuts.pdf'\cf4 )\
+}
